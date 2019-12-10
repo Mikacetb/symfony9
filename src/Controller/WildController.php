@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
 use App\Entity\Episode;
+use App\Form\ProgramSearchType;
 
 class WildController extends AbstractController
 {
@@ -17,13 +19,18 @@ class WildController extends AbstractController
      */
     public function index(ProgramRepository $programRepository)
     {
+        $form = $this->createForm(ProgramSearchType::class);
+
         $programs = $programRepository->findAll();
 
         if (!$programs) {
           throw $this->createNotFoundException('No program found in program\'s table.');
         }
 
-        return $this->render('wild/index.html.twig', ['programs' => $programs]);
+        return $this->render('wild/index.html.twig', [
+            'programs' => $programs,
+            'form' =>$form->createView(),
+        ]);
     }
 
     /**

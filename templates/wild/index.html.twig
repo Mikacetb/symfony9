@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button type="submit" name="btnSearch">Rechercher</button>
+    {{ form_end(form) }}
+
     <h1>All TV shows: </h1>
     {% for program in programs %}
         <div>
