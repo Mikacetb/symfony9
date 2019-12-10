@@ -9,7 +9,9 @@ use App\Repository\ProgramRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\SeasonRepository;
 use App\Repository\EpisodeRepository;
+use App\Repository\ActorRepository;
 use App\Entity\Episode;
+use App\Entity\Actor;
 use App\Form\ProgramSearchType;
 
 class WildController extends AbstractController
@@ -115,5 +117,25 @@ class WildController extends AbstractController
           'episode' => $episode,
           'season' => $season
         ]);
-    }    
+    }
+    
+          /**
+    * @Route("/wild/actor/{id<[1-9]+>}", name="show_actor")
+    */
+    public function showActor(actor $actor)
+    {
+        $name= $actor->getName();
+        $programs= $actor->getPrograms();
+
+        $hyphenizedTitles = [];
+        foreach($programs as $program) {
+          $hyphenizedTitles[] = strtolower(str_replace(' ', '-', $program->getTitle()));
+        }
+
+        return $this->render('wild/actor.html.twig', [
+          'actor' => $actor,
+          'programs' => $programs,
+          'hyphenizedTitles' => $hyphenizedTitles
+        ]);
+    }  
 }

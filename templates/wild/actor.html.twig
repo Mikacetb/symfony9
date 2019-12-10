@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Nom de l'acteur : {{ actor.name }}</h1>
+    <h2>Séries auquelles il a participé :</h2>
+    {% for program in programs %}
+        <div>
+            <a href="{{ path('show_program', {programName: hyphenizedTitles[loop.index - 1]}) }}">{{ program.title }}</a>
+        </div>
+    {% endfor %}
+{% endblock %}
